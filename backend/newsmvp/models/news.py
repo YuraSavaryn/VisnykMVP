@@ -1,14 +1,19 @@
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
-from sqlalchemy.orm import Mapped
-
-from .base import Base
 
 
-class News(Base):
-    __tablename__ = "news"
+class NewsBase(BaseModel):
+    source_name: str
+    title: str
+    link: str
+    summary: str
+    published: datetime
 
-    source_name: Mapped[str]
-    title: Mapped[str]
-    link: Mapped[str]
-    summary: Mapped[str]
-    published: Mapped[datetime]
+
+class NewsCreate(NewsBase):
+    pass
+
+
+class News(NewsBase):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
