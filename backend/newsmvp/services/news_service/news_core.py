@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 from database.schemas import News
-from models import NewsCreate
+from models import NewsCreate, NewsUpdate, NewsUpdatePartial
 
 
 async def get_news(session: AsyncSession) -> list[News]:
@@ -21,3 +21,20 @@ async def create_news(session: AsyncSession, news_in: NewsCreate) -> News:
     session.add(product)
     await session.commit()
     return product
+
+
+async def update_news(
+    session: AsyncSession,
+    news: News,
+    news_update: NewsUpdate | NewsUpdatePartial,
+    partial: bool = False,
+) -> News:
+    for name, value in news_update.model_dump(exclude_unset=partial).items():
+        setattr(news, name, value)
+    await session.commit()
+    return news
+
+
+async def delete_news(session: AsyncSession, news: News) -> None:
+    await session.delete(news)
+    await session.commit()
