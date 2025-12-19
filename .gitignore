@@ -1,8 +1,9 @@
 .idea/
-
-backend/.idea/
-backend/.venv
+.venv
 
 .env
+instructions.txt
 
 __pycache__
+
+celerybeat-schedule*

@@ -6,9 +6,10 @@ load_dotenv()
 
 class Settings(BaseSettings):
     api_v1_prefix: str = "/api/v1"
-    db_url: str = ""
-
     cors_origins: list[str] = []
+
+    db_url: str = ""
+    redis_url: str = ""
 
 
 settings = Settings()
