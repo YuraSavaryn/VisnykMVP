@@ -1,6 +1,8 @@
 from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.dialects.postgresql import insert as pg_insert
+
 from database.schemas import News
 from models import NewsCreate, NewsUpdate, NewsUpdatePartial
 
@@ -21,6 +23,12 @@ async def create_news(session: AsyncSession, news_in: NewsCreate) -> News:
     session.add(product)
     await session.commit()
     return product
+
+
+async def create_news_bulk(session: AsyncSession, news_in: dict) -> None:
+    stmt = pg_insert(News).values(news_in)
+    await session.execute(stmt)
+    await session.commit()
 
 
 async def update_news(

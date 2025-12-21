@@ -8,9 +8,10 @@ from core.config import settings
 
 
 class Database:
-    def __init__(self, url: str):
+    def __init__(self, url: str, poolclass=None):
         self.engine = create_async_engine(
             url=url,
+            poolclass=poolclass,
         )
         self.session_factory = async_sessionmaker(
             bind=self.engine,

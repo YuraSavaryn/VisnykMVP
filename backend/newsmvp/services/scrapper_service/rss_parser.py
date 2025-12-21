@@ -2,8 +2,6 @@ import feedparser
 from dateutil import parser
 from datetime import datetime, timezone
 
-from models import NewsCreate
-
 
 def parse_rss(source_name, url):
     news_items = []
@@ -23,13 +21,13 @@ def parse_rss(source_name, url):
         else:
             published = datetime.now(timezone.utc)
 
-        item = NewsCreate(
-            source_name=source_name,
-            title=entry.title,
-            link=entry.link,
-            summary=entry.get("summary", ""),
-            published=published,
-        )
+        item = {
+            "source_name": source_name,
+            "title": entry.title,
+            "link": entry.link,
+            "summary": entry.get("summary", ""),
+            "published": published,
+        }
         news_items.append(item)
 
     return news_items
