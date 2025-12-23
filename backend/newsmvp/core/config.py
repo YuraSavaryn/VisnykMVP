@@ -9,7 +9,8 @@ class Settings(BaseSettings):
     cors_origins: list[str] = []
 
     db_url: str = ""
-    redis_url: str = ""
+    broker_url: str = ""
+    result_backend_url: str = ""
 
 
 settings = Settings()

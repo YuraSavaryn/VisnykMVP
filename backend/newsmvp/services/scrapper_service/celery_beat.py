@@ -1,4 +1,3 @@
-from datetime import datetime
 from celery import Celery
 from celery.schedules import crontab
 
@@ -6,8 +5,8 @@ from core.config import settings
 
 celery_app = Celery(
     main="tasks_service",
-    broker=settings.redis_url,
-    backend=settings.redis_url,
+    broker=settings.broker_url,
+    backend=settings.result_backend_url,
     include=["services.scrapper_service.celery_worker"],
 )
 
@@ -18,16 +17,6 @@ celery_app.conf.beat_schedule = {
     },
 }
 
-celery_app.conf.timezone = "UTC"
+celery_app.conf.beat_schedule_filename = "celerybeat-schedule/"
 
-# @app.task
-# def hello():
-#     return "hello world"
-#
-#
-# @app.task
-# def generate_report():
-#     print(f"Published: {datetime.now()}")
-#
-#
-# generate_report.apply_async(countdown=2)
+celery_app.conf.timezone = "UTC"
