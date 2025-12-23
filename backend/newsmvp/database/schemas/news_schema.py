@@ -5,6 +5,7 @@ from sqlalchemy import DateTime, UniqueConstraint, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
+from services.news_service.news_config import news_verification
 
 if TYPE_CHECKING:
     from .news_source_schema import NewsSource
@@ -20,6 +21,9 @@ class News(Base):
     link: Mapped[str]
     summary: Mapped[str]
     published: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    news_verification: Mapped[str] = mapped_column(
+        default=news_verification[0], server_default=news_verification[0]
+    )
 
     news_source: Mapped["NewsSource"] = relationship(back_populates="news")
     news_type: Mapped["NewsType"] = relationship(back_populates="news")

@@ -3,11 +3,13 @@ from datetime import datetime
 
 
 class NewsBase(BaseModel):
-    source_name: str
+    news_source_id: int
+    news_type_id: int
     title: str
     link: str
     summary: str
     published: datetime
+    news_verification: str
 
 
 class NewsCreate(NewsBase):
@@ -19,11 +21,13 @@ class NewsUpdate(NewsCreate):
 
 
 class NewsUpdatePartial(NewsCreate):
-    source_name: str | None = None
+    news_source_id: int | None = None
+    news_type_id: int | None = None
     title: str | None = None
     link: str | None = None
     summary: str | None = None
     published: datetime | None = None
+    news_verification: str | None = None
 
 
 class News(NewsBase):
