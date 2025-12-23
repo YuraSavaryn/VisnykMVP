@@ -13,3 +13,20 @@ rss_urls = {
     "New Voice": "https://nv.ua/ukr/rss/all.xml",
     "LIGA.net": "https://www.liga.net/news/all/rss.xml",
 }
+
+news_verification = {
+    -1: "fake",
+    0: "not confirmed",
+    1: "true",
+}
+
+types = [
+    "unknown",
+    "politics",
+    "war",
+    "economics",
+    "medicine",
+    "technology",
+    "education",
+    "show business",
+]

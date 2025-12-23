@@ -1,7 +1,8 @@
 __all__ = (
-    "Base",
     "News",
+    "NewsCreate",
+    "NewsUpdate",
+    "NewsUpdatePartial",
 )
 
-from .base import Base
-from .news import News
+from .news import News, NewsCreate, NewsUpdate, NewsUpdatePartial

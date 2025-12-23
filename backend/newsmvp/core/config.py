@@ -1,5 +1,3 @@
-from os import getenv
-
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
 
@@ -7,7 +5,12 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
-    db_url: str = getenv("DB_URL")
+    api_v1_prefix: str = "/api/v1"
+    cors_origins: list[str] = []
+
+    db_url: str = ""
+    broker_url: str = ""
+    result_backend_url: str = ""
 
 
 settings = Settings()
