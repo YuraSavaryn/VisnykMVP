@@ -6,4 +6,5 @@ instructions.txt
 
 __pycache__
 
-celerybeat-schedule*
+backend/newsmvp/celerybeat-schedule/*
+!backend/newsmvp/celerybeat-schedule/.gitkeep
