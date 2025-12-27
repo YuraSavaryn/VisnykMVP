@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Header from './components/Header';
+import FiltersBar from './components/FiltersBar';
+import NewsFeed from './components/NewsFeed';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
+      
+      {/* Верхня частина: Хедер + Фільтри */}
+      <nav>
+        <Header />
+        <FiltersBar />
+      </nav>
 
-export default App
+      {/* Основний контент */}
+      <main>
+        {/* Заголовок секції (опціонально) */}
+        <div style={{ width: '70%', margin: '2rem auto 0 auto' }}>
+             <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Останні новини</h3>
+        </div>
+
+        {/* Компонент стрічки новин */}
+        <NewsFeed />
+      </main>
+
+    </div>
+  );
+};
+
+export default App;

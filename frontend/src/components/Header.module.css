@@ -1,0 +1,76 @@
+.header {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 1.5rem 0;
+}
+
+.container {
+  /* Головна зміна: ширина 70% (залишає по 15% з боків) */
+  width: 70%; 
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  /* Піднімаємо іконки: вирівнювання по центру, а не по низу */
+  align-items: center; 
+}
+
+.logoWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #000;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.accent {
+  color: #dc2626;
+}
+
+.slogan {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #000;
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+}
+
+.socials {
+  display: flex;
+  gap: 1.5rem;
+  /* Прибрав margin-bottom, щоб вони центрувалися ідеально */
+}
+
+.iconLink {
+  color: #000;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.iconLink:hover {
+  color: #dc2626;
+}
+
+/* Адаптивність: на телефонах 70% це замало, тому робимо ширше */
+@media (max-width: 1024px) {
+  .container {
+    width: 90%; /* На планшетах і телефонах відступи менші */
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+  .socials {
+    gap: 1rem;
+  }
+}
