@@ -9,8 +9,8 @@ from .news_source_core import get_news_source_id
 from .news_type_core import get_news_type_id
 
 
-async def get_news(session: AsyncSession) -> list[News]:
-    stmt = select(News).order_by(desc(News.published))
+async def get_news(session: AsyncSession, batch_size: int = 20) -> list[News]:
+    stmt = select(News).order_by(desc(News.published)).limit(batch_size)
     result: Result = await session.execute(stmt)
     news = result.scalars().all()
     return list(news)

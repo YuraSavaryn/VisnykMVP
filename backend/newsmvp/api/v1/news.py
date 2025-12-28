@@ -9,6 +9,7 @@ from .dependencies import news_by_id
 router = APIRouter(tags=["news"])
 
 
+# налаштувати отримання певної кількості новин та фільтрування за часом
 @router.get("/", response_model=list[News])
 async def get_news(
     session: AsyncSession = Depends(db_helper.session_dependency),
