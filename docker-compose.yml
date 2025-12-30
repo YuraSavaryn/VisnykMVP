@@ -86,6 +86,16 @@ services:
       redis:
         condition: service_healthy
 
+  encoder:
+    image: ghcr.io/huggingface/text-embeddings-inference:cpu-latest
+    container_name: encoder
+    command: --model-id sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+    volumes:
+      - ./data:/data
+    networks:
+      - backend
+    # ports: -":80"
+
 volumes:
   postgres-data:
 
