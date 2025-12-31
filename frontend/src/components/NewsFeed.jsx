@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './NewsFeed.module.css';
 
-const NewsFeed = () => {
+const NewsFeed = ({category, date}) => {
   const [news, setNews] = useState([]);
   const [sources, setSources] = useState({}); 
   const [loading, setLoading] = useState(true);
@@ -11,12 +11,15 @@ const NewsFeed = () => {
   useEffect(() => {
     const controller = new AbortController();
 
+    const batch_size = 20;
+    const url = category === 'fresh' ? `/${date}/${batch_size}` : `/worthy_news/${date}/${batch_size}/`;
+
     const fetchData = async () => {
       try {
         setLoading(true);
         
         // 1. Завантажуємо новини
-        const newsResponse = await axios.get('http://localhost:8000/api/v1/news/', {
+        const newsResponse = await axios.get(`http://localhost:8000/api/v1/news${url}`, {
           signal: controller.signal
         });
         
@@ -75,7 +78,7 @@ const NewsFeed = () => {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [category, date]);
 
   const formatDate = (dateString) => {
     const options = { 

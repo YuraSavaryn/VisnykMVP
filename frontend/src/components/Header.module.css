@@ -5,18 +5,30 @@
 }
 
 .container {
-  /* Головна зміна: ширина 70% (залишає по 15% з боків) */
   width: 70%; 
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
-  /* Піднімаємо іконки: вирівнювання по центру, а не по низу */
+  justify-content: b-between; /* Розносить leftSection та rightSection */
   align-items: center; 
+}
+
+.leftSection {
+  display: flex;
+  align-items: center; /* Центрує лого по вертикалі відносно тексту */
+  gap: 10px; /* Відстань між фото та текстом */
 }
 
 .logoWrapper {
   display: flex;
+  padding-top: 15px;
   flex-direction: column;
+}
+
+.pigeonImage {
+  width: 60px; /* Можна збільшити/зменшити за потреби */
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .title {
@@ -40,37 +52,4 @@
   color: #000;
   margin-top: 4px;
   letter-spacing: 0.05em;
-}
-
-.socials {
-  display: flex;
-  gap: 1.5rem;
-  /* Прибрав margin-bottom, щоб вони центрувалися ідеально */
-}
-
-.iconLink {
-  color: #000;
-  transition: color 0.2s ease;
-  display: flex;
-  align-items: center;
-}
-
-.iconLink:hover {
-  color: #dc2626;
-}
-
-/* Адаптивність: на телефонах 70% це замало, тому робимо ширше */
-@media (max-width: 1024px) {
-  .container {
-    width: 90%; /* На планшетах і телефонах відступи менші */
-  }
-}
-
-@media (max-width: 768px) {
-  .title {
-    font-size: 2rem;
-  }
-  .socials {
-    gap: 1rem;
-  }
 }

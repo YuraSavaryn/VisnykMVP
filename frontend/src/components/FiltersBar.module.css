@@ -6,9 +6,7 @@
   border-bottom: 1px solid #333;
   position: relative;
   z-index: 40;
-  /* Додамо трохи заокруглення знизу, якщо хочеш, або прибери border-radius */
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-radius: 10px;
 }
 
 .container {
@@ -86,6 +84,37 @@
 .menuItem.active {
   background-color: #dc2626;
   color: #fff;
+}
+
+.datePickerWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dateInput {
+  background-color: #1f1f1f;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  min-width: 180px;
+  color-scheme: dark; /* Робить вбудований календар темним */
+  outline: none;
+}
+
+.dateInput:hover {
+  background-color: #333;
+  border-color: #555;
+}
+
+.calendarIcon {
+  position: absolute;
+  right: 10px;
+  pointer-events: none; /* Щоб клік проходив крізь іконку на інпут */
 }
 
 /* Адаптивність */
