@@ -12,3 +12,4 @@ backend/newsmvp/celerybeat-schedule/*
 !backend/newsmvp/celerybeat-schedule/.gitkeep
 
 metrics.csv
+data/
