@@ -1,5 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Sequence
 
 from database.schemas import NewsSource
 
@@ -9,6 +10,15 @@ async def create_news_source(session: AsyncSession, source_title) -> NewsSource:
     session.add(news_source)
     await session.commit()
     return news_source
+
+
+async def get_news_sources_by_id(
+    session: AsyncSession,
+    ids: list[int],
+) -> Sequence[NewsSource]:
+    stmt = select(NewsSource).where(NewsSource.id.in_(ids))
+    news_sources = await session.scalars(stmt)
+    return news_sources.all()
 
 
 async def get_news_source_by_title(

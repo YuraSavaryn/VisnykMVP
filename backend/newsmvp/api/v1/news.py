@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
+from datetime import date
 
 from database import db_helper
 from models import News, NewsCreate, NewsUpdate, NewsUpdatePartial
@@ -9,11 +10,29 @@ from .dependencies import news_by_id
 router = APIRouter(tags=["news"])
 
 
-@router.get("/", response_model=list[News])
+@router.get("/{certain_date}/{batch_size}/", response_model=list[News])
 async def get_news(
+    certain_date: date = date(2026, 1, 31),
+    batch_size: int = 20,
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
-    return await news_core.get_news(session)
+    return await news_core.get_news(session, certain_date, batch_size)
+
+
+@router.get("/{news_id}/", response_model=News)
+async def get_news_by_id(
+    news: News = Depends(news_by_id),
+) -> News:
+    return news
+
+
+@router.get("/worthy_news/{certain_date}/{batch_size}/", response_model=list[News])
+async def get_worthy_news(
+    certain_date: date,
+    batch_size: int,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await news_core.get_worthy_news(session, certain_date, batch_size)
 
 
 @router.post("/", response_model=News, status_code=status.HTTP_201_CREATED)
@@ -22,13 +41,6 @@ async def create_news(
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
     return await news_core.create_news(session, news_in)
-
-
-@router.get("/{news_id}/", response_model=News)
-async def get_news_by_id(
-    news: News = Depends(news_by_id),
-) -> News:
-    return news
 
 
 @router.put("/{news_id}/")

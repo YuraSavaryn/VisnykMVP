@@ -1,0 +1,135 @@
+/* Тепер обмежуємо ширину самої смуги, а не тільки контейнера всередині */
+.bar {
+  width: 70%; /* Ширина як у контента хедера */
+  margin: 0 auto; /* Центрування по горизонталі */
+  background-color: #000000;
+  border-bottom: 1px solid #333;
+  position: relative;
+  z-index: 40;
+  border-radius: 10px;
+}
+
+.container {
+  width: 100%; /* Контейнер тепер займає всю ширину батька (.bar) */
+  /* Прибрали відступи зліва/справа, щоб кнопки були рівно під логотипом */
+  padding: 0.75rem 1rem; 
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dropdownWrapper {
+  position: relative;
+}
+
+.dropdownButton {
+  background-color: #1f1f1f;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 180px;
+  justify-content: space-between;
+}
+
+.dropdownButton:hover {
+  background-color: #333;
+  border-color: #555;
+}
+
+.buttonContent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.menu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  background-color: #1f1f1f;
+  border: 1px solid #333;
+  border-radius: 6px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+  z-index: 50;
+}
+
+.menuItem {
+  background: transparent;
+  border: none;
+  color: #d1d5db;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.menuItem:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.menuItem.active {
+  background-color: #dc2626;
+  color: #fff;
+}
+
+.datePickerWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dateInput {
+  background-color: #1f1f1f;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  min-width: 180px;
+  color-scheme: dark; /* Робить вбудований календар темним */
+  outline: none;
+}
+
+.dateInput:hover {
+  background-color: #333;
+  border-color: #555;
+}
+
+.calendarIcon {
+  position: absolute;
+  right: 10px;
+  pointer-events: none; /* Щоб клік проходив крізь іконку на інпут */
+}
+
+/* Адаптивність */
+@media (max-width: 1024px) {
+  .bar {
+    width: 90%; /* На планшетах розширюємо до 90% */
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .dropdownButton {
+    width: 100%;
+  }
+}
