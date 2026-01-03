@@ -7,6 +7,7 @@ from core.config import settings
 from database import Database
 from .celery_beat import celery_app
 from .rss_parser import parse_rss
+from .cleaning_core import clean_text
 from services.news_service.news_core import (
     create_news_bulk,
     get_news_without_embedding,
@@ -26,6 +27,7 @@ async def process_rss_async():
     async with worker_db_helper.session_factory() as session:
         for channel in rss_channels:
             channel_news = parse_rss(channel, rss_urls[channel])
+            channel_news = clean_text(channel_news, "summary")
             await create_news_bulk(session, channel_news)
 
 

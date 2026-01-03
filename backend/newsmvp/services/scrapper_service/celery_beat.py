@@ -17,7 +17,7 @@ celery_app.conf.beat_schedule = {
     "rss_parser_news": {
         "task": "services.scrapper_service.celery_worker.run_full_parse_pipeline",
         "schedule": crontab(
-            minute="*/3",
+            minute="*/2",
         ),  # hour="*/1"),
         # ),  # hour="*/1"),
     },

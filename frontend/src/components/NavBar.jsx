@@ -17,6 +17,12 @@ const Navbar = ({ activeTab, setActiveTab }) => {
         >
           Важливі новини
         </button>
+        <button 
+          className={`${styles.navLink} ${activeTab === 'agent' ? styles.active : ''}`}
+          onClick={() => setActiveTab('agent')}
+        >
+          Вісник (AI)
+        </button>
       </div>
     </div>
   );
