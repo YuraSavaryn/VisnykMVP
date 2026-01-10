@@ -109,8 +109,7 @@
 
 /* Контейнер для тексту Markdown */
 .markdownContent {
-  white-space: pre-wrap; /* Це змусить браузер поважати символи \n */
-  word-break: break-word;
+  word-break: break-word; 
 }
 
 /* Прибираємо марджини у параграфів, щоб текст не "стрибав" */

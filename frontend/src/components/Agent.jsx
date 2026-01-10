@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styles from './Agent.module.css';
+import ReactMarkdown from 'react-markdown';
 
 const Agent = () => {
   const [messages, setMessages] = useState([
@@ -52,7 +53,11 @@ const Agent = () => {
         <div className={styles.messagesList}>
           {messages.map((msg, index) => (
             <div key={index} className={`${styles.message} ${styles[msg.role]}`}>
-              <div className={styles.bubble}>{msg.content}</div>
+              <div className={styles.bubble}>
+                <div className={styles.markdownContent}>
+                  <ReactMarkdown>{msg.content}</ReactMarkdown>
+                </div>
+              </div>
             </div>
           ))}
           

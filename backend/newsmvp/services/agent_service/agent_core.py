@@ -23,4 +23,9 @@ async def call_agent(thread_id: int, query: str) -> str:
     resp = agent.invoke({"messages": [("user", query)]}, config=config)
 
     final_message = resp["messages"][-1]
-    return final_message.content[0]["text"]
+    if isinstance(final_message.content, list):
+        first_item = final_message.content[0]
+        if isinstance(first_item, dict) and "text" in first_item:
+            return first_item["text"]
+        return str(first_item)
+    return final_message.content

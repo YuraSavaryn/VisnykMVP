@@ -4,26 +4,10 @@ from datetime import date
 
 from database import db_helper
 from models import News, NewsCreate, NewsUpdate, NewsUpdatePartial
-from services.news_service import news_core
+from services.news_service import news_core, news_type_core
 from .dependencies import news_by_id
 
 router = APIRouter(tags=["news"])
-
-
-@router.get("/{certain_date}/{batch_size}/", response_model=list[News])
-async def get_news(
-    certain_date: date = date(2026, 1, 31),
-    batch_size: int = 20,
-    session: AsyncSession = Depends(db_helper.session_dependency),
-):
-    return await news_core.get_news(session, certain_date, batch_size)
-
-
-@router.get("/{news_id}/", response_model=News)
-async def get_news_by_id(
-    news: News = Depends(news_by_id),
-) -> News:
-    return news
 
 
 @router.get("/worthy_news/{certain_date}/{batch_size}/", response_model=list[News])
@@ -33,6 +17,29 @@ async def get_worthy_news(
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
     return await news_core.get_worthy_news(session, certain_date, batch_size)
+
+
+@router.get("/{certain_date}/{category}/{batch_size}/", response_model=list[News])
+async def get_news_by_category(
+    certain_date: date = date(2026, 1, 31),
+    category: str = "unknown",
+    batch_size: int = 20,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    if category == "unknown":
+        return await news_core.get_news(session, certain_date, batch_size)
+    category_obj = await news_type_core.get_news_type(session, category)
+    news = await news_core.get_news_by_category(
+        session, certain_date, category_obj.type_embedding, batch_size
+    )
+    return news
+
+
+@router.get("/{news_id}/", response_model=News)
+async def get_news_by_id(
+    news: News = Depends(news_by_id),
+) -> News:
+    return news
 
 
 @router.post("/", response_model=News, status_code=status.HTTP_201_CREATED)

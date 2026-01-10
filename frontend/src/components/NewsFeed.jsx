@@ -2,34 +2,47 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './NewsFeed.module.css';
 
-const NewsFeed = ({category, date}) => {
+const NewsFeed = ({tab, date, category}) => {
   const [news, setNews] = useState([]);
   const [sources, setSources] = useState({}); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const categoryMapping = {
+    'Усі новини': 'unknown',
+    'Політика': 'politics',
+    'Війна': 'war',
+    'Економіка': 'economics',
+    'Технології': 'technology',
+    'Медицина': 'medicine',
+    'Культура': 'culture',
+    'Наука': 'science',
+    'Освіта': 'education',
+    'Шоу-бізнес': 'show business',
+    'Спорт': 'sport'
+  };
+
   useEffect(() => {
     const controller = new AbortController();
 
     const batch_size = 20;
-    const url = category === 'fresh' ? `/${date}/${batch_size}` : `/worthy_news/${date}/${batch_size}/`;
+    const categorySystemName = categoryMapping[category] || 'unknown';
+    const url = tab === 'fresh' 
+      ? `/${date}/${categorySystemName}/${batch_size}` 
+      : `/worthy_news/${date}/${batch_size}/`;
 
     const fetchData = async () => {
       try {
         setLoading(true);
         
-        // 1. Завантажуємо новини
         const newsResponse = await axios.get(`http://localhost:8000/api/v1/news${url}`, {
           signal: controller.signal
         });
         
         const newsData = newsResponse.data;
         
-        // 2. Збираємо унікальні ID джерел
-        // Set автоматично прибирає дублікати
         const uniqueSourceIds = [...new Set(newsData.map(item => item.news_source_id))];
 
-        // 3. Якщо є джерела, завантажуємо інформацію про них
         let sourcesMap = {};
         
         if (uniqueSourceIds.length > 0) {
@@ -37,23 +50,17 @@ const NewsFeed = ({category, date}) => {
             params: {
               ids: uniqueSourceIds
             },
-            // Це важливо: Axios за замовчуванням може кодувати масиви як ids[]=1, 
-            // а FastAPI очікує ids=1&ids=2. Ця опція виправляє це.
             paramsSerializer: {
                 indexes: null 
             },
             signal: controller.signal
           });
 
-          // 4. Перетворюємо масив джерел на об'єкт (Map) для швидкого пошуку по ID
-          // Було: [{id: 1, title: '...'}, ...]
-          // Стало: { 1: {title: '...'}, ... }
           sourcesResponse.data.forEach(source => {
             sourcesMap[source.id] = source;
           });
         }
 
-        // Оновлюємо стейт
         setNews(newsData);
         setSources(sourcesMap);
         setError(null);
@@ -64,7 +71,6 @@ const NewsFeed = ({category, date}) => {
           return;
         }
         console.error("Помилка при завантаженні даних:", err);
-        // Якщо це помилка мережі або сервера - показуємо її
         setError('Не вдалося завантажити стрічку новин. Спробуйте пізніше.');
       } finally {
         if (!controller.signal.aborted) {
@@ -78,7 +84,7 @@ const NewsFeed = ({category, date}) => {
     return () => {
       controller.abort();
     };
-  }, [category, date]);
+  }, [tab, date, category]);
 
   const formatDate = (dateString) => {
     const options = { 

@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styles from './FiltersBar.module.css';
 
-const FiltersBar = ({ onDateChange, currentDate, activeTab }) => {
-  const [selectedCategory, setSelectedCategory] = useState('Усі новини');
+const FiltersBar = ({ onDateChange, currentDate, activeTab, selectedCategory, setSelectedCategory }) => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isEvaluating, setIsEvaluating] = useState(false);
 
   const categoryRef = useRef(null);
-  const categories = ['Усі новини', 'Політика', 'Війна', 'Економіка', 'Технології', 'Медицина', 'Спорт'];
+  const categories = ['Усі новини', 'Політика', 'Війна', 'Економіка', 'Технології', 'Медицина', 
+    'Культура', 'Наука', 'Освіта', 'Шоу-бізнес', 'Спорт'];
 
   const handleEvaluate = async () => {
     try {

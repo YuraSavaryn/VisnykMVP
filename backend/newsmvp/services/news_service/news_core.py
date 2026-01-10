@@ -62,9 +62,34 @@ async def get_news_by_date(
         select(News)
         .where(News.published >= start_of_day)
         .where(News.published < end_of_day)
+        .order_by(desc(News.published))
     )
 
-    result = await session.execute(stmt)
+    result: Result = await session.execute(stmt)
+    return list(result.scalars().all())
+
+
+async def get_news_by_category(
+    session: AsyncSession,
+    certain_date: date,
+    category_embedding: list,
+    batch_size: int = 20,
+):
+    start_of_day = certain_date
+    end_of_day = start_of_day + timedelta(days=1)
+    distance_func = News.embedding.cosine_distance(category_embedding)
+    threshold = 0.7
+
+    stmt = (
+        select(News)
+        .where(News.published >= start_of_day)
+        .where(News.published < end_of_day)
+        .where(distance_func < threshold)
+        .order_by(distance_func)
+        .limit(batch_size)
+    )
+
+    result: Result = await session.execute(stmt)
     return list(result.scalars().all())
 
 
